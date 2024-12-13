@@ -72,6 +72,20 @@ public final class TinyStorage: @unchecked Sendable {
 	}
 
 	// MARK: - Public API
+	
+	/// Silently check to see if there is data for the defined key
+	/// - Parameters:
+	///   - type: The `Codable`-conforming type that the retrieved value should be decoded into.
+	///   - key: The key at which the value is stored.
+	public func contains<T: Codable>(type: T.Type, forKey key: any TinyStorageKey) -> Bool {
+		dispatchQueue.sync {
+			if dictionaryRepresentation[key.rawValue] != nil {
+				return true
+			} else {
+				return false
+			}
+		}
+	}
 
 	/// Retrieve a value from storage at the given key and decode it as the given type, throwing if there are  any errors in attemping to retrieve. Note that it will not throw if the key simply holds nothing currently, and instead will return nil. This function is a handy alternative to `retrieve` if you want more information about errors, for instance if you can recover from them or if you want to log errors to your own logger.
 	///
