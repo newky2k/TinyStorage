@@ -18,7 +18,7 @@ import SwiftUI
 /// - Does NOT use NSFilePresenter due to me being scared. Uses DispatchSource to watch and respond to changes to the backing file.
 /// - Internally data is stored as [String: Data] where Data is expected to be Codable (otherwise will error), this is to minimize needing to unmarshal the entire top-level dictionary into Codable objects for each key request/write. We store this [String: Data] object as a binary plist to disk as [String: Data] is not JSON encodable due to Data not being JSON
 /// - Uses OSLog for logging
-public final class TinyStorage: @unchecked Sendable {
+public final class TinyStorage: ObservableObject, @unchecked Sendable {
 	private let directoryURL: URL
 	public let fileURL: URL
 
